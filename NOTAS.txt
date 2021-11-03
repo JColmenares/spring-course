@@ -9,8 +9,49 @@
 
 ##VIDEO 1. Primera aplicación REST con Spring Framework---------------------------------------------------------------##
 
-    Plugins: - Spring Boot DevTools ->  Permite Que cada vez que se haga cambios en el codigo no se tenga que 
-                                        tumbar y bajar el servicio a cada rato.
+    Plugins: 
+        - Spring Boot DevTools ->   Permite Que cada vez que se haga cambios en el codigo no se tenga que 
+                                    tumbar y bajar el servicio a cada rato.
+
+            Dependencia Maven:  
+                        		<dependency>
+                                    <groupId>org.springframework.boot</groupId>
+                                    <artifactId>spring-boot-devtools</artifactId>
+                                    <scope>runtime</scope>
+                                    <optional>true</optional>
+                                </dependency>
+
+            
+
+##--------------------------------------------------------------------------------------------------------------------##
+
+##VIDEO 3. Inyección por atributo-------------------------------------------------------------------------------------##
+
+    - Las anotaciones de Spring se conocen como estereotipo.
+    - Contexto de Spring: Es el lugar donde se viven los objetos administrados por spring. Al iniciar una aplicacion el valor de retorno de esa aplicacion es un contexto.
+
+            
+
+##--------------------------------------------------------------------------------------------------------------------##
+
+##VIDEO 4. Inyección por constructor----------------------------------------------------------------------------------##
+
+    - La Inyeccion de dependencias en los constructores va estipulada en el constructor compuesto con os parametros de entradas de la clase, a su vez no debe existir un contructor vacio.           
+
+    IMPORTANTE: La Inyeccion de dependencias es recomendada hacerla mediante los contructores o metodos setters    
+
+##--------------------------------------------------------------------------------------------------------------------##
+
+##VIDEO 5. Inyección por setter---------------------------------------------------------------------------------------##
+
+    - La Inyeccion de dependencias en los setters van ubicadas arriba del metodo correspondiente setters de cada varaible de la clase.
+        No es necesario tener un controlador con parametros, sino un controlador vacio.
+
+    NOTA DE PREGUNTA DE CERTIFICACION:
+
+        Los metodos que realizan la funcion de setters, a juro deben llamarse setNombreDeVaraible() ?
+            La respuetas es no, puede tener cualquier nombre, siempre y cuando contenga la estructura de un metodo setters. 
+            De igual manera va a funcionar la inyeccion.          
 
 ##--------------------------------------------------------------------------------------------------------------------##
 
