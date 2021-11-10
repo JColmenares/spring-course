@@ -27,7 +27,7 @@
 
 ##VIDEO 3. Inyección por atributo-------------------------------------------------------------------------------------##
 
-    - Las anotaciones de Spring se conocen como estereotipo.
+    - Las anotaciones de Spring se conocen como ESTEREOTIPOS.
     - Contexto de Spring: Es el lugar donde se viven los objetos administrados por spring. Al iniciar una aplicacion el valor de retorno de esa aplicacion es un contexto.
 
             
@@ -52,6 +52,29 @@
         Los metodos que realizan la funcion de setters, a juro deben llamarse setNombreDeVaraible() ?
             La respuetas es no, puede tener cualquier nombre, siempre y cuando contenga la estructura de un metodo setters. 
             De igual manera va a funcionar la inyeccion.          
+
+##--------------------------------------------------------------------------------------------------------------------##
+
+##VIDEO 6. Stereotypes------------------------------------------------------------------------------------------------------------##
+ 
+    IMPORTANTE: Todo lo que esta en el contenedor de Spring son Beam.
+
+    Estereotipos permiten dar un rol a las clases que serán administradas por spring, todas ellas tienen el mismo comportamiento y se aplican solo a las implementaciones. Las mas basicas son:
+ 
+    - @Component: Es el Estereotipo base o basico el cual esta contenido en los demas estereotipos. Si al definir las clases alguna no entra en las clasificaciones de los Estereotipos ya especificados se puede establecer este.
+    - @Service: Se usa para especificar que la clase ejecutara logica de negocio.
+    - @Controller: Se usa para especificar que la clase definira que habrá exposición de datos.
+    - @Repository: Se usa para especificar que la clase dara acceso a datos.        
+
+##--------------------------------------------------------------------------------------------------------------------##
+
+
+
+##VIDEO 7. Uso de Qualifiers-----------------------------------------------------------------------------------------------------------'-##
+ 
+    Los Estereotipos normalmente no se les coloca a las clases Gnericas, sino a las implementaciones concretas.
+
+    Lo Qualifiers son necesarios unicamente cuando los tipos de Datos que se quiere inyectar tiene multiples Implementaciones. 
 
 ##--------------------------------------------------------------------------------------------------------------------##
 
