@@ -1,4 +1,4 @@
- package com.example.di;
+  package com.example.di;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -6,16 +6,21 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import com.example.di.atributo.inyecciones.atributos.Coche;
 import com.example.di.atributo.inyecciones.constructores.Coche2;
 import com.example.di.atributo.inyecciones.setters.Coche3;
+import com.example.di.autowire.AreaCalculatorService;
+import com.example.di.profiles.EnvironmentService;
 import com.example.di.qualifiers.Animal;
 import com.example.di.qualifiers.Nido;
 import com.example.di.qualifiers.Pajaro;
 import com.example.di.qualifiers.Perro;
 import com.example.di.qualifiers.primary.Nido2;
+import com.example.di.scopes.ExampleScopeService;
 
 @SpringBootApplication
 public class DependencyInyectionApplication {
@@ -114,6 +119,82 @@ public class DependencyInyectionApplication {
 		 * */
 		Nido2 quelifiersNido2 = context.getBean(Nido2.class);
 		quelifiersNido2.print();
+		
+		// 6- Uso de Perfiles @Profile("dev")
+		/*
+		 * Este estereotipo se utiliza para definr diferentes perfiles en el codigo, con el cual permite establecer 
+		 * diferentes ejecuciones según el perfil especificado. Hay 3 opciones de activar los perfiles:
+		 * 	
+		 * 	6.1. Definiendo el tag el archivo application.properties:
+		 * 		spring.profiles.active=dev
+		 *  
+		 *  6.2. Definir en la MV un argumento llamado:
+		 *  	-Dspring.profiles.active=dev 
+		 * 
+		 * 
+		 * 	NOTA: Si se mezclan estas dos formas, tiene como prioridad la 6.2. MV Argument
+		 *	IMPORTANTE: Si al al ejecutar no se define un perfil ni en el application.propeties, y en el MV Argument
+		 *				Spring dara error ya que no sabe cual Perfil tomar, por lo que se puede establecer un Perfil por 
+		 *				Default agregandole el siguiente paremetro:
+		 *	
+		 *					@Profile({"dev", "default"})
+		 *
+		 * */
+		EnvironmentService environmentService = context.getBean(EnvironmentService.class);
+		log.info("Active Environment {} ", environmentService.getEnvironment());
+	
+		// 7- Uso de Scope @Scope("singleton")
+		/*
+		 *  Estereotipo permite establecer el comportamiento de una clase en bean. 
+		 * 
+		 * 	7.1.  @Scope("singleton") -> Valor por defecto en las clases Beam. Crea una sola instancia del beam por
+		 *   							 por contenedor de Spring.
+		 *   
+		 *  7.2.  @Scope("prototype") -> Crea una nueva instancia cada vez que se solicita.
+		 *  
+		 *  7.3.  @Scope("request") -> Crea una nueva instancia por cada peticiön HTTP, solo se puede utilizar en una aplicación web.
+		 *  
+		 *  7.4.  @Scope("session") -> Crea una nueva instancia por cada sesión HTTP.
+		 * 
+		 * */
+		//Prueba
+		ExampleScopeService exampleScope = context.getBean(ExampleScopeService.class);
+		ExampleScopeService exampleScope2 = context.getBean(ExampleScopeService.class);
+		
+		log.info("Are beans equal {} ", exampleScope.equals(exampleScope2));
+		log.info("Are beans == {} ", exampleScope == exampleScope2);
+		
+		// 7- Uso de beans de forma Explicita @Bean
+		/*
+		 *    - Bean Implicitos: Es aplicado con los Estereotipos que son declarados, directamente
+		 *    					 en las clases principales, siempre y cuando se tenga acceso a la 
+		 *    					 misma, o se pueda realizar una herencia.
+		 *    
+		 *    - Bean Explicitos: Se utiliza mediante el estereotipo @Bean encima de un metedo, dandole
+		 *    					 valor la clase Bean. Cumple cuando se le quiere aplicar un estereotipo bean a una clase
+		 *    					 pero no se tiene acceso a ella ni se puede Heredar ya que es final
+		 *    					 como por ejemplo la clase String.
+		 *       
+		 * 
+		 * */
+		String nameApplication = context.getBean(String.class);
+		log.info("Name Application {} ", nameApplication);
+		
+		// 8- Inyección de dependencias multiples Objetos (@Autowired)
+		/*
+		 *   Esta inyección permite realizar una busqueda todos los objetos con datos
+		 *   asociados a una Interface, permitiendo recolectarlos y almacenarlos en una variable con el 
+		 *   estereotipo @Autowired
+		 * */
+		AreaCalculatorService calculator = context.getBean(AreaCalculatorService.class);
+		log.info("Area total {} ", calculator.calcAreas());
+		
 	}
+	
+	//7.Uso de beans de forma Explicita @Bean
+	 @Bean //Convierte el metodo Bean, indirectamente por su clase de salida.
+	 public String getApplicationName() {
+		 return "¡Devs4j Rules!";
+	 }
 
 }
