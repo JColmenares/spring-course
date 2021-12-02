@@ -1,5 +1,6 @@
   package com.example.di;
 
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -8,12 +9,17 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.expression.Expression;
+import org.springframework.expression.ExpressionParser;
+import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.stereotype.Component;
 
 import com.example.di.atributo.inyecciones.atributos.Coche;
 import com.example.di.atributo.inyecciones.constructores.Coche2;
 import com.example.di.atributo.inyecciones.setters.Coche3;
 import com.example.di.autowire.AreaCalculatorService;
+import com.example.di.config.AreaCalculatorService1;
 import com.example.di.profiles.EnvironmentService;
 import com.example.di.qualifiers.Animal;
 import com.example.di.qualifiers.Nido;
@@ -22,7 +28,16 @@ import com.example.di.qualifiers.Perro;
 import com.example.di.qualifiers.primary.Nido2;
 import com.example.di.scopes.ExampleScopeService;
 
-@SpringBootApplication
+@SpringBootApplication /* Este Estereotipo es llamado meta anotaciones, ya que contienen
+						* un grupo de estereotipos agrupados para poder ser llamados
+						* en uno, y es equivalente a definir las siguientes
+						* anotaciones:
+ 					 	*
+ 					 	*	@Configuration
+ 					 	*	@ComponentScan
+ 					 	*	@EnableAutoConfiguration
+ 					 	*
+ 					 	*/
 public class DependencyInyectionApplication {
 
 	
@@ -188,6 +203,25 @@ public class DependencyInyectionApplication {
 		 * */
 		AreaCalculatorService calculator = context.getBean(AreaCalculatorService.class);
 		log.info("Area total {} ", calculator.calcAreas());
+		
+		// 9- Uso de properties @PropertySource("classpath:areas.properties")
+		/*
+		 *   Esta inyección permite realizar una busqueda todos los objetos con datos
+		 *   asociados a una Interface, permitiendo recolectarlos y almacenarlos en una variable con el 
+		 *   estereotipo @Autowired
+		 * */
+		AreaCalculatorService1 calculator1 = context.getBean(AreaCalculatorService1.class);
+		log.info("Area total (Uso de properties) {} ", calculator1.calcAreas());
+		
+		// 10- Uso de expresiones SpEl
+		/*
+		 *   Permite realizar o peraciones de calculo los con una objeto de spring.
+		 *   Cuenta con diferentes Expresiones predefinidas en Spring.
+		 * 
+		 */
+		ExpressionParser parser = new SpelExpressionParser();
+		Expression expression = parser.parseExpression("10 + 20");
+		log.info("Resultado de Calculo SpEl: {} ", expression.getValue());
 		
 	}
 	
